@@ -73,6 +73,11 @@ while True:
         x, y = prev_update_time.split(":")
         x, y = int(x), int(y)
         y += 1
+        x += 5 
+        if x >= 24:
+            x -= 24
+        if y ==60:
+            y = 0
         client(DeletePhotosRequest(client.get_profile_photos('me')))
         file = client.upload_file(f"time/{x}:{y}.jpg")
         client(UploadProfilePhotoRequest(file))
