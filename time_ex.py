@@ -8,7 +8,7 @@ def convert_time_to_string(dt):
     return f"{dt.hour}:{dt.minute:02}"
 import cv2
 import numpy as np
-from datetime import datetime
+from datetime import datetime, timedelta
 start_time = datetime.strptime("2019-01-01", "%Y-%m-%d")  # Можете выбрать любую дату
 end_time = start_time + timedelta(days=1)
 time = datetime.now()
