@@ -8,7 +8,7 @@ def convert_time_to_string(dt):
     return f"{dt.hour}:{dt.minute:02}"
 def juma(rept):
     return rept
-import cv2import pytz
+import cv2
 api_id = '1239727'
 api_hash = 'a12d841c6ddd543b2010b8fad15ef1d7'
 from telethon import TelegramClient, sync
