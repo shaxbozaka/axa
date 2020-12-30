@@ -22,14 +22,9 @@ rept = 0
 end_time = start_time + timedelta(days=1)
 # time = datetime.now()
 def time():
-    dtobj1 = datetime.utcnow()  # utcnow class method
-    # print(dtobj1)
-
-    dtobj3 = dtobj1.replace(tzinfo=pytz.UTC)  # replace method
-
-    dtobj1 = datetime.utcnow()  # utcnow class method
-    # print(dtobj1)
-    time = dtobj3.astimezone(pytz.timezone("Asia/tashkent"))  # astimezone method
+    x = pytz.timezone("Asia/tashkent")
+    time = datetime.now(x)
+  # astimezone method
     return time
 
 def generate_image_with_text(text, path):
