@@ -93,9 +93,14 @@ while True:
 
     if time_has_changed(prev_update_time):
         
-
+       
+        x, y = time().hour, time().minute
+        if y == 60:
+            y = "00"
+        if y != 0 and y < 10:
+            y = "0" + str(y)
         client(DeletePhotosRequest(client.get_profile_photos('me')))
-        file = client.upload_file(f"time/{time().hour}:{time().minute + 1}.jpg")
+        file = client.upload_file(f"time/{time().hour}:{time().minute}.jpg")
 
         if time().weekday() == 4:
             if time().hour < 13 and time().hour > 10:
