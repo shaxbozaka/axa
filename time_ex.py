@@ -8,12 +8,6 @@ def convert_time_to_string(dt):
     return f"{dt.hour}:{dt.minute:02}"
 import cv2
 import numpy as np
-from datetime import datetime, timedelta
-# def get_black_background():
-#     path = r'tashkent_n.jpeg'
-#     image = cv2.imread(path)
-#     # return np.zeros((800, 700))
-#     return image
 
 start_time = datetime.strptime("2019-01-01", "%Y-%m-%d")  # Можете выбрать любую дату
 end_time = start_time + timedelta(days=1)
@@ -27,11 +21,11 @@ def generate_image_with_text(text):
     if h == "0":
         h +="0"
     text = f"{h}:{m}"
-    if time.hour >= 18 or (time.hour > 0 or time.hour < 9):
+    if time.hour + 5 >= 18 or (time.hour > 0 or time.hour + 5 < 9):
         path = r'tashkent_n.jpeg'
-    elif time.hour >= 9 and time.hour <= 12:
+    elif time.hour + 5 >= 9 and time.hour + 5 <= 12:
         path = r'tashkent_m.jpeg'
-    elif time.hour >= 12 and time.hour <= 18:
+    elif time.hour+ 5 >= 12 and time.hour + 5 <= 18:
         path = r'tashkent_d.jpeg'
 
     image = cv2.imread(path)
