@@ -1,4 +1,3 @@
-
 import pytz
 
 api_id = '1239727'
@@ -16,22 +15,27 @@ def convert_time_to_string(dt):
 def juma(rept):
     return rept
 
+
+import cv2
 import numpy as np
 from datetime import datetime, timedelta
+
 
 
 start_time = datetime.strptime("2019-01-01", "%Y-%m-%d")  # Можете выбрать любую дату
 rept = 0
 end_time = start_time + timedelta(days=1)
+
+
 # time = datetime.now()
 def time():
     x = pytz.timezone("Asia/tashkent")
     time = datetime.now(x)
-  # astimezone method
+    # astimezone method
     return time
 
-def generate_image_with_text(text, path):
 
+def generate_image_with_text(text, path):
     image = cv2.imread(path)
     color = (255, 0, 0)
     org = (500, 500)
@@ -40,8 +44,6 @@ def generate_image_with_text(text, path):
 
     cv2.putText(image, text, (int(image.shape[1] // 2 + image.shape[1] // 6), int(image.shape[0] // 6)), font, 1.5,
                 color, 2, cv2.LINE_AA)
-
-
 
     return image
 
@@ -53,7 +55,8 @@ def juma_muborak():
     cv2.imwrite(f"time/juma-muborak", image)
     print("passed")
 
-while start_time < end_time :
+
+while start_time < end_time:
 
     if start_time.hour >= 7 and start_time.hour < 11:
         path = r"tashkent_m.jpeg"
@@ -74,9 +77,10 @@ while rept <= 500:
     cv2.imwrite(f"time/juma-{rept}.jpg", image)
     rept += 1
 
-
 from telethon.tl.functions.photos import UploadProfilePhotoRequest, DeletePhotosRequest
 from datetime import datetime
+
+
 def time_has_changed(prev_time):
     a = datetime.now()
     if a.second == 55:
@@ -88,6 +92,8 @@ prev_update_time = ""
 while True:
 
     if time_has_changed(prev_update_time):
+        
+
         client(DeletePhotosRequest(client.get_profile_photos('me')))
         file = client.upload_file(f"time/{time().hour}:{time().minute}.jpg")
 
