@@ -95,6 +95,7 @@ while True:
         
        
         x, y = time().hour, time().minute
+        y += 1
         if y == 60:
             y = "00"
             x += 1
