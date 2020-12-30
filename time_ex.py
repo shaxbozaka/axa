@@ -32,60 +32,50 @@ def time():
     time = dtobj3.astimezone(pytz.timezone("Asia/tashkent"))  # astimezone method
     return time
 
-def generate_image_with_text(text, rept):
+def generate_image_with_text(text, path):
 
-    # print(text)
+    image = cv2.imread(path)
+    color = (255, 0, 0)
+    org = (500, 500)
 
-    if time().weekday() != 4:
-        h, m = text.split(":")
-        if m == "0":
-            m+="0"
-        if h == "0":
-            h +="0"
-        text = f"{h}:{m}"
-        if time().hour >= 18 or (time().hour > 0 or time().hour < 9):
-            path = r'tashkent_n.jpeg'
-        elif time().hour >= 9 and time().hour <= 12:
-            path = r'tashkent_m.jpeg'
-        elif time().hour >= 12 and time().hour <= 18:
-            path = r'tashkent_d.jpeg'
-        image = cv2.imread(path)
-        # print(text)
-        color = (255, 0, 0)
-        org = (500, 500)
-        # print(image.shape)
-        font = cv2.FONT_HERSHEY_SIMPLEX
+    font = cv2.FONT_HERSHEY_SIMPLEX
 
-        cv2.putText(image, text, (int(image.shape[1] // 2 + image.shape[1] // 6), int(image.shape[0] // 6)), font, 1.5,
-                    color, 2, cv2.LINE_AA)
+    cv2.putText(image, text, (int(image.shape[1] // 2 + image.shape[1] // 6), int(image.shape[0] // 6)), font, 1.5,
+                color, 2, cv2.LINE_AA)
 
-    else:
-        path = r'masjid_m.jpg'
-        image = cv2.imread(path)
 
-        color = (255, 0, 0)
-        org = (500, 500)
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        if time().hour > 10 and time().hour < 13:
-            text = "Juma namoziga " + str(rept) + " minut qoldi"
-        else:
-            text = "Juma Muborak!"
-        cv2.putText(image, text, (int(image.shape[1] // 2), int(image.shape[0] // 6)), font, 1.5,
-                    color, 2, cv2.LINE_AA)
+
     return image
 
-while start_time < end_time:
+
+def juma_muborak():
+    path = r"masjid_m.jpg"
+    text = "Juma muborak"
+    image = generate_image_with_text(text, path)
+    cv2.imwrite(f"time/juma-muborak", image)
+    print("passed")
+
+while start_time < end_time :
+
+    if start_time.hour >= 7 and start_time.hour < 11:
+        path = r"tashkent_m.jpeg"
+    elif start_time.hour >= 11 and start_time.hour < 18:
+        path = r"tashkent_d.jpeg"
+    elif start_time.hour >= 18 or start_time.hour < 7:
+        path = r"tashkent_n.jpeg"
+
     text = convert_time_to_string(start_time)
-    # print(text, rept)
-    rept = juma(rept)
-    print(rept)
-    image = generate_image_with_text(text, rept)
-    if time().weekday() == 4:
-        cv2.imwrite(f"time/juma-{rept}.jpg", image)
-    else:
-        cv2.imwrite(f"time/{text}.jpg", image)
+    image = generate_image_with_text(text, path)
+    cv2.imwrite(f"time/{text}.jpg", image)
     start_time += timedelta(minutes=1)
+
+while rept <= 500:
+    path = r"masjid_m.jpg"
+    image = generate_image_with_text(f"Juma namoziga {rept} minut qoldi", path)
+    rept = juma(rept)
+    cv2.imwrite(f"time/juma-{rept}.jpg", image)
     rept += 1
+
 
 from telethon.tl.functions.photos import UploadProfilePhotoRequest, DeletePhotosRequest
 from datetime import datetime
@@ -101,7 +91,7 @@ while True:
 
     if time_has_changed(prev_update_time):
         prev_update_time = convert_time_to_string(time())
-        print(prev_update_time)
+        # print(prev_update_time)
         x, y = prev_update_time.split(":")
         x, y = int(x), int(y)
         y += 1
@@ -113,14 +103,12 @@ while True:
         if y < 10 and y != "00":
             y = "0" + str(y)
         client(DeletePhotosRequest(client.get_profile_photos('me')))
-        file = client.upload_file(f"time/{x}:{y}.jpg")
-        print(time().weekday())
+        file = client.upload_file(f"time/{x - 5}:{y}.jpg")
+
         if time().weekday() == 4:
-            print("passed")
             if time().hour < 13 and time().hour > 10:
                 file = client.upload_file(f"time/juma-{(13 - time().hour) * 60 - time().minute - 1}.jpg")
-                print("juma2")
             else:
-                file = client.upload_file(f"time/juma-1.jpg")
-                print("juma1")
+                juma_muborak()
+                file = client.upload_file(f"time/juma-muborak.jpg")
         client(UploadProfilePhotoRequest(file))
