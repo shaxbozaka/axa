@@ -21,7 +21,7 @@ def generate_image_with_text(text):
     if h == "0":
         h +="0"
     text = f"{h}:{m}"
-    if time.hour + 5 >= 18 or (time.hour > 0 or time.hour + 5 < 9):
+    if time.hour + 5 >= 18 or time.hour + 5 < 9):
         path = r'tashkent_n.jpeg'
     elif time.hour + 5 >= 9 and time.hour + 5 <= 12:
         path = r'tashkent_m.jpeg'
