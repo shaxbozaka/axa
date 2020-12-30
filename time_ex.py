@@ -74,7 +74,7 @@ def generate_image_with_text(text, rept):
                     color, 2, cv2.LINE_AA)
     return image
 
-while start_time < end_time and rept <= 500:
+while start_time < end_time:
     text = convert_time_to_string(start_time)
     # print(text, rept)
     rept = juma(rept)
