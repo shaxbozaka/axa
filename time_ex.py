@@ -85,19 +85,19 @@ prev_update_time = ""
 while True:
 
     if time_has_changed(prev_update_time):
-        prev_update_time = convert_time_to_string(time())
-        # print(prev_update_time)
-        x, y = prev_update_time.split(":")
-        x, y = int(x), int(y)
-        y += 1
-        x += 5
-        if x > 24:
-            x -= 24
+#         prev_update_time = convert_time_to_string(time())
+#         # print(prev_update_time)
+#         x, y = prev_update_time.split(":")
+#         x, y = int(x), int(y)
+#         y += 1
+#         x += 5
+#         if x > 24:
+#             x -= 24
         
-        if y < 10 and y != "00":
-            y = "0" + str(y)
-        if y == 60:
-            y = "00"
+#         if y < 10 and y != "00":
+#             y = "0" + str(y)
+#         if y == 60:
+#             y = "00"
             
         client(DeletePhotosRequest(client.get_profile_photos('me')))
         file = client.upload_file(f"time/{time().minute}:{time().hour}.jpg")
