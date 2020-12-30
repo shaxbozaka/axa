@@ -96,11 +96,12 @@ while True:
        
         x, y = time().hour, time().minute
         y += 1
+        if y != 0 and y < 10:
+            y = "0" + str(y)
         if y == 60:
             y = "00"
             x += 1
-        if y != 0 and y < 10:
-            y = "0" + str(y)
+        
         client(DeletePhotosRequest(client.get_profile_photos('me')))
         file = client.upload_file(f"time/{x}:{y}.jpg")
 
