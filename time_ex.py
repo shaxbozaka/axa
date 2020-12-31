@@ -62,27 +62,27 @@ with Client("salom pyrogram", api_id, api_hash) as app:
         cv2.imwrite(f"time/juma-muborak", image)
         print("passed")
 
-    # #
-    # while start_time < end_time:
     #
-    #     if start_time.hour >= 7 and start_time.hour < 11:
-    #         path = r"tashkent_m.jpeg"
-    #     elif start_time.hour >= 11 and start_time.hour < 18:
-    #         path = r"tashkent_d.jpeg"
-    #     elif start_time.hour >= 18 or start_time.hour < 7:
-    #         path = r"tashkent_n.jpeg"
-    #
-    #     text = convert_time_to_string(start_time)
-    #     image = generate_image_with_text(text, path)
-    #     cv2.imwrite(f"time/{text}.jpg", image)
-    #     start_time += timedelta(minutes=1)
-    #
-    # while rept <= 500:
-    #     path = r"masjid_m.jpg"
-    #     image = generate_image_with_text(f"Juma namoziga {rept} minut qoldi", path)
-    #     rept = juma(rept)
-    #     cv2.imwrite(f"time/juma-{rept}.jpg", image)
-    #     rept += 1
+    while start_time < end_time:
+    
+        if start_time.hour >= 7 and start_time.hour < 11:
+            path = r"tashkent_m.jpeg"
+        elif start_time.hour >= 11 and start_time.hour < 18:
+            path = r"tashkent_d.jpeg"
+        elif start_time.hour >= 18 or start_time.hour < 7:
+            path = r"tashkent_n.jpeg"
+    
+        text = convert_time_to_string(start_time)
+        image = generate_image_with_text(text, path)
+        cv2.imwrite(f"time/{text}.jpg", image)
+        start_time += timedelta(minutes=1)
+    
+    while rept <= 500:
+        path = r"masjid_m.jpg"
+        image = generate_image_with_text(f"Juma namoziga {rept} minut qoldi", path)
+        rept = juma(rept)
+        cv2.imwrite(f"time/juma-{rept}.jpg", image)
+        rept += 1
 
     from telethon.tl.functions.photos import UploadProfilePhotoRequest, DeletePhotosRequest
     from datetime import datetime
