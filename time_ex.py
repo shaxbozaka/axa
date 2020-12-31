@@ -115,7 +115,7 @@ with Client("salom pyrogram", api_id, api_hash) as app:
             # client(DeletePhotosRequest(client.get_profile_photos('me')))
             # file = client.upload_file(f"time/{time().hour}:{time().minute}.jpg")
             photos = app.get_profile_photos("me")
-            app.delete_profile_photos([p.file_id for p in photos[1:]])
+            app.delete_profile_photos(photos[0].file_id)
             if time().weekday() == 4:
                 if time().hour < 13 and time().hour > 10:
                     # file = client.upload_file(f"time/juma-{(13 - time().hour) * 60 - time().minute - 1}.jpg")
