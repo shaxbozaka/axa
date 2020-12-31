@@ -62,27 +62,27 @@ with Client("salom pyrogram", api_id, api_hash) as app:
         cv2.imwrite(f"time/juma-muborak", image)
         print("passed")
 
+    # #
+    # while start_time < end_time:
     #
-    while start_time < end_time:
-    
-        if start_time.hour >= 7 and start_time.hour < 11:
-            path = r"tashkent_m.jpeg"
-        elif start_time.hour >= 11 and start_time.hour < 18:
-            path = r"tashkent_d.jpeg"
-        elif start_time.hour >= 18 or start_time.hour < 7:
-            path = r"tashkent_n.jpeg"
-    
-        text = convert_time_to_string(start_time)
-        image = generate_image_with_text(text, path)
-        cv2.imwrite(f"time/{text}.jpg", image)
-        start_time += timedelta(minutes=1)
-    
-    while rept <= 500:
-        path = r"masjid_m.jpg"
-        image = generate_image_with_text(f"Juma namoziga {rept} minut qoldi", path)
-        rept = juma(rept)
-        cv2.imwrite(f"time/juma-{rept}.jpg", image)
-        rept += 1
+    #     if start_time.hour >= 7 and start_time.hour < 11:
+    #         path = r"tashkent_m.jpeg"
+    #     elif start_time.hour >= 11 and start_time.hour < 18:
+    #         path = r"tashkent_d.jpeg"
+    #     elif start_time.hour >= 18 or start_time.hour < 7:
+    #         path = r"tashkent_n.jpeg"
+    #
+    #     text = convert_time_to_string(start_time)
+    #     image = generate_image_with_text(text, path)
+    #     cv2.imwrite(f"time/{text}.jpg", image)
+    #     start_time += timedelta(minutes=1)
+    #
+    # while rept <= 500:
+    #     path = r"masjid_m.jpg"
+    #     image = generate_image_with_text(f"Juma namoziga {rept} minut qoldi", path)
+    #     rept = juma(rept)
+    #     cv2.imwrite(f"time/juma-{rept}.jpg", image)
+    #     rept += 1
 
     from telethon.tl.functions.photos import UploadProfilePhotoRequest, DeletePhotosRequest
     from datetime import datetime
@@ -109,12 +109,13 @@ with Client("salom pyrogram", api_id, api_hash) as app:
                 x = 0
             if y < 10 and y != "00":
                 y = "0" + str(y)
-            elif y == 60:
+            if y == 60:
                 y = "00"
             #
             # client(DeletePhotosRequest(client.get_profile_photos('me')))
             # file = client.upload_file(f"time/{time().hour}:{time().minute}.jpg")
-
+            photos = app.get_profile_photos("me")
+            app.delete_profile_photos([p.file_id for p in photos[1:]])
             if time().weekday() == 4:
                 if time().hour < 13 and time().hour > 10:
                     # file = client.upload_file(f"time/juma-{(13 - time().hour) * 60 - time().minute - 1}.jpg")
@@ -124,6 +125,7 @@ with Client("salom pyrogram", api_id, api_hash) as app:
                     juma_muborak()
                     # file = client.upload_file(f"time/juma-muborak.jpg")
                     app.set_profile_photo(photo=f"time/juma_muborak.jpg")
-            app.set_profile_photo(photo=f"time/{x}:{y}.jpg")
-            print("passed", time())
+            else:
+                app.set_profile_photo(photo=f"time/{x}:{y}.jpg")
+                print("passed", time())
             # client(UploadProfilePhotoRequest(file))
