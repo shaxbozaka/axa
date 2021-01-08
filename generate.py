@@ -30,7 +30,7 @@ def juma_muborak():
     path = r"masjid_m.jpg"
     text = "Juma muborak"
     image = generate_image_with_text(text, path)
-    cv2.imwrite(f"time/juma-muborak.jpg", image)
+    cv2.imwrite(f"time/juma_muborak.jpg", image)
     print("passed juma")
 
 juma_muborak()
